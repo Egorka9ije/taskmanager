@@ -53,4 +53,5 @@ public class UserServiceImpl implements UserService{
                 .orElseThrow(() -> new UserNotFoundException("User not found with username " + username));
         return userMapper.toResponse(user);
     }
+
 }

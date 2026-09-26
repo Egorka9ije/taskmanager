@@ -4,6 +4,7 @@ import com.example.taskmanager.domain.TaskStatus;
 import com.example.taskmanager.dto.request.CreateTaskRequest;
 import com.example.taskmanager.dto.response.TaskResponse;
 import com.example.taskmanager.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskResponse createTask(@RequestBody CreateTaskRequest request, @RequestParam Long ownerId) {
+    public TaskResponse createTask(@Valid @RequestBody CreateTaskRequest request, @RequestParam Long ownerId) {
         return taskService.create(request, ownerId);
     }
 
