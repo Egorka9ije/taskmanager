@@ -23,7 +23,6 @@ public class UserMapper {
         User user = new User();
         user.setUsername(request.username());
         user.setEmail(request.email());
-        user.setPassword(request.password());
         return user;
     }
 }

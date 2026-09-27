@@ -11,6 +11,7 @@ import com.example.taskmanager.mapper.UserMapper;
 import com.example.taskmanager.repository.RoleRepository;
 import com.example.taskmanager.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService{
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new IllegalStateException("Default role ROLE_USER not found"));
         user.setRoles(Set.of(userRole));
+        user.setPassword(passwordEncoder.encode(request.password()));
         return userMapper.toResponse(userRepository.save(user));
 
     }
