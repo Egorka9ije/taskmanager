@@ -7,6 +7,7 @@ import com.example.taskmanager.exception.UsernameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -54,5 +55,11 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleException(Exception ex){
         log.error("Unhandled exception", ex);
         return new ErrorResponse(500, "Internal server error", LocalDateTime.now());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleBadCredentials(BadCredentialsException ex) {
+        return new ErrorResponse(401, "Invalid username or password", LocalDateTime.now());
     }
 }
