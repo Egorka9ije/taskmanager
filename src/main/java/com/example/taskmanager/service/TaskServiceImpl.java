@@ -35,8 +35,11 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(readOnly = true)
-    public TaskResponse findById(Long id) {
+    public TaskResponse findById(Long id, Long ownerId) {
         Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Task not found"));
+        if (!task.getOwner().getId().equals(ownerId)){
+            throw new TaskNotFoundException("Task not found");
+        }
         return taskMapper.toResponse(task);
     }
 
@@ -56,7 +59,7 @@ public class TaskServiceImpl implements TaskService {
     public void delete(Long taskId, Long ownerId) {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new TaskNotFoundException("Task not found"));
         if (!task.getOwner().getId().equals(ownerId)) {
-            throw new TaskNotFoundException("User is not the owner of this task");
+            throw new TaskNotFoundException("Task not found");
         }
         taskRepository.delete(task);
     }

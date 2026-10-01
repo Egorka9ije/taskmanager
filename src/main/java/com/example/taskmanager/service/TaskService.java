@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TaskService {
     TaskResponse create(CreateTaskRequest request, Long ownerId);
-    TaskResponse findById(Long id);
+    TaskResponse findById(Long id, Long ownerId);
     List<TaskResponse> findAllByOwner(Long ownerId);
     TaskResponse updateStatus(Long taskId, TaskStatus newStatus, Long ownerId);
     void delete(Long taskId, Long ownerId);
